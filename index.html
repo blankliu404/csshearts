@@ -1,0 +1,150 @@
+<!--
+	@author blankliu
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>css hearts</title>
+    <style type="text/css">
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    body {
+        background: #3498db;
+        overflow: hidden;
+    }
+
+    /**
+ 	 * 主容器
+ 	 */
+    div#main {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    /**
+ 	 * 显示文字
+ 	 */
+    h1#text {
+        color: #FFF;
+        text-align: center;
+    }
+
+    /**
+     * heart标签的样式，一个红色的正方形，
+     * 将最终图像旋转45度，并置于缩小一半、半透明状态，
+     * 设置无限的动效
+     * 单次动效时间3s
+     */
+    heart {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #e74c3c;
+        transform: rotate(45deg) scale(.5);
+        opacity: .5;
+        animation-name: scale, opacity;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+    }
+
+    /**
+     * 用伪类在heart之前画个圆并左移十像素
+     */
+    heart::before {
+        position: absolute;
+        content: '';
+        width: 20px;
+        height: 20px;
+        background: #e74c3c;
+        border-radius: 50%;
+        transform: translateX(-10px);
+    }
+
+    /**
+     *用伪类在heart之后画个圆并上移十像素
+     */
+
+    heart::after {
+        position: absolute;
+        content: '';
+        width: 20px;
+        height: 20px;
+        background: #e74c3c;
+        border-radius: 50%;
+        transform: translateY(-10px);
+    }
+
+    /**
+     * 跳动动效
+     */
+    @keyframes scale {
+
+        25%,
+        75% {
+            transform: rotate(45deg) scale(1);
+        }
+
+        50%,
+        100% {
+            transform: rotate(45deg) scale(.5);
+        }
+    }
+
+    /**
+     * 改变透明度
+     */
+    @keyframes opacity {
+
+        25%,
+        75% {
+            opacity: 1;
+        }
+
+        50%,
+        100% {
+            opacity: .5;
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <h1 id="text"></h1>
+    </div>
+</body>
+<script type="text/javascript">
+//获取父容器
+var mainObj = document.getElementById('main')
+//获取文本容器
+var textObj = document.getElementById('text')
+//获取浏览器的高度
+var innerWidth = document.body.clientWidth
+var innerHeight = document.body.clientHeight
+
+//计数器
+var number = 0
+
+/**
+ * 持续出心，直到数量为521，位置随机生成
+ */
+var interval = setInterval(function() {
+    var heart = document.createElement('heart')
+    heart.style.left = Math.floor(Math.random() * innerWidth) + 'px'
+    heart.style.top = Math.floor(Math.random() * innerHeight) + 'px'
+    mainObj.appendChild(heart)
+    number++
+    textObj.innerHTML = '送你' + number + '个爱心，请查收！'
+    //当心的数量达到521时结束
+    if (number >= 521) {
+        clearInterval(interval)
+    }
+}, 50)
+</script>
+
+</html>
